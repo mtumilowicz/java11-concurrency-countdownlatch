@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/mtumilowicz/java11-concurrency-countdownlatch.svg?branch=master)](https://travis-ci.com/mtumilowicz/java11-concurrency-countdownlatch)
+
 # java11-concurrency-countdownlatch
 
 # preface
