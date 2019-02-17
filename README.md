@@ -2,9 +2,9 @@
 
 # preface
 * https://github.com/mtumilowicz/java11-concurrency-cyclicbarrier
-* latches are like barriers but one-time object (cannot be reused)
+* latches are like barriers but can be used only once
 * use case: startup of application (some number of one-time tasks
-should be done before other activities)
+should be done before other tasks)
 
 # java
 * latch is represented in Java by `CountDownLatch` class
@@ -19,7 +19,7 @@ should be done before other activities)
     * `long	getCount()` - current count.
 
 # project description
-Suppose we have MainService that could be started only
+Suppose we have main service that could be started only
 when two other config services are already running.
 `CountDownLatch` is a perfect match.
 1. main service
