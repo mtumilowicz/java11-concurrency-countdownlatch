@@ -20,5 +20,75 @@ should be done before other activities)
 
 # project description
 Suppose we have MainService that could be started only
-when two other services (Service 1 and Service 2) are running.
-CountDownLatch is a perfect match.
+when two other config services are already running.
+`CountDownLatch` is a perfect match.
+1. main service
+    ```
+    class MainService extends Thread {
+    
+        private final CountDownLatch latch;
+    
+        MainService(CountDownLatch latch) {
+            this.latch = latch;
+        }
+    
+        @Override
+        public void run() {
+            try {
+                System.out.println("Main service is waiting for others to boot");
+                latch.await();
+                System.out.println("Main service is running!");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    ```
+1. config service
+    ```
+    class ConfigService extends Thread {
+    
+        private final int id;
+        private final CountDownLatch latch;
+    
+        ConfigService(int id, CountDownLatch latch) {
+            this.id = id;
+            this.latch = latch;
+        }
+    
+        @Override
+        public void run() {
+            try {
+                System.out.println("Service " + id + " is booting...");
+                TimeUnit.MILLISECONDS.sleep(new Random().nextInt(50) + 4);
+                System.out.println("Service " + id + " is running!");
+            } catch (InterruptedException e) {
+                // not used
+            } finally {
+                this.latch.countDown();
+            }
+        }
+    }
+    ```
+1. simulation
+    ```
+    var latch = new CountDownLatch(2);
+    var mainService = new MainService(latch);
+    var configService1 = new ConfigService(1, latch);
+    var configService2 = new ConfigService(2, latch);
+
+    mainService.start();
+    configService1.start();
+    configService2.start();
+    
+    mainService.join();
+    ```
+    could produce output
+    ```
+    Main service is waiting for others to boot
+    Service 2 is booting...
+    Service 1 is booting...
+    Service 1 is running!
+    Service 2 is running!
+    Main service is running!
+    ```

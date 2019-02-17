@@ -13,10 +13,10 @@ public class MainServiceTest {
         var mainService = new MainService(latch);
         var configService1 = new ConfigService(1, latch);
         var configService2 = new ConfigService(2, latch);
-        
+
+        mainService.start();
         configService1.start();
         configService2.start();
-        mainService.start();
         
         mainService.join();
     }
