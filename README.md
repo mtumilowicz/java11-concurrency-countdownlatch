@@ -7,6 +7,10 @@
 * latches are like barriers but can be used only once
 * use case: startup of application (some number of one-time tasks
 should be done before other tasks)
+* use case: Ensuring that a computation does not proceed until resources it needs have
+been initialized. A simple binary (two-state) latch could be used to indicate
+“Resource R has been initialized”, and any activity that requires R would
+wait first on this latch.
 
 # java
 * latch is represented in Java by `CountDownLatch` class
