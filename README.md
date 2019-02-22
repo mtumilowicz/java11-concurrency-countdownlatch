@@ -23,6 +23,14 @@ wait first on this latch.
     * `void	countDown()` - decrements the count of the latch, 
     releasing all waiting threads if the count reaches zero
     * `long	getCount()` - current count.
+* FutureTask also acts like a latch.
+   * A computation represented
+   by a FutureTask is implemented with a Callable
+   * Once a FutureTask
+   enters the completed state, it stays in that state forever.
+   * Future.get depends on the state of the task: 
+      * If it is completed, get returns the result immediately, 
+      * otherwise blocks until the task transitions to the completed state and then returns the result or throws an exception
 
 # project description
 Suppose we have main service that could be started only
